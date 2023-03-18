@@ -18,7 +18,7 @@
     "url": "https://github.com/makaronnik/goit-js-hw-10/issues"
   },
   "dependencies": {
-    "lodash.debounce": "^4.1.1",
+    "lodash.debounce": "^4.0.8",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.6"
   },
