@@ -1,5 +1,6 @@
 import './css/styles.css';
 import fetchCountries from './services/fetchCountries';
+import fetchBackgroundUrl from './services/fetchBackgroundUrl';
 import CountryInfo from './components/countryInfo';
 import CountryList from './components/countryList';
 import debounce from 'lodash.debounce';
@@ -26,9 +27,7 @@ function onInput({ target: { value } }) {
     return;
   }
 
-  responseData = fetchCountries(value.trim())
-    .then(handleResult)
-    .catch(handleError);
+  fetchCountries(value.trim()).then(handleResult).catch(handleError);
 }
 
 function handleResult(data) {
@@ -62,6 +61,7 @@ function renderCountryInfo(data) {
   clearElements();
   lastSingleCountryName = countryName;
   refs.countryInfo.innerHTML = new CountryInfo(data).compile();
+  changeBodyBackground(countryName);
 }
 
 function renderCountryList(data) {
@@ -69,8 +69,24 @@ function renderCountryList(data) {
   refs.countryList.innerHTML = new CountryList(data).compile();
 }
 
+function changeBodyBackground(countryName) {
+  fetchBackgroundUrl(countryName)
+    .then(imgUrl => {
+      // Preloading image to browser cash
+      fetch(imgUrl)
+        .catch()
+        .finally(() => {
+          document.body.style.backgroundImage = `url(${imgUrl})`;
+          refs.countryInfo.classList.add('country-info--lightened');
+        });
+    })
+    .catch(console.error);
+}
+
 function clearElements() {
   lastSingleCountryName = '';
-  refs.countryInfo.innerHTML = '';
   refs.countryList.innerHTML = '';
+  refs.countryInfo.innerHTML = '';
+  refs.countryInfo.classList.remove('country-info--lightened');
+  document.body.style.backgroundImage = null;
 }

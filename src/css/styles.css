@@ -14,9 +14,10 @@ body {
   color: #212121;
   background-color: #fafafa;
   background-image: url(../images/background.jpg);
+  background-size: cover;
   background-position: center top;
 
-  transition: background-color 0.2s ease-out;
+  transition: background-image 0.2s ease-in-out;
 }
 
 ul {
@@ -62,7 +63,15 @@ li,
 }
 
 .country-info {
+  display: inline-block;
+  margin-left: 20px;
+  padding-top: 10px;
   padding-left: 20px;
+  padding-right: 20px;
+}
+
+.country-info--lightened {
+  background-color: rgba(250, 250, 250, 0.75);
 }
 
 .country-info_head {
